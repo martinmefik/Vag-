@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скрытые функции VAG (до 2019)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #f4f6f8;
+            color: #1a1a2e;
+            line-height: 1.5;
+            padding: 20px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        header { margin-bottom: 24px; }
+        h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+        .subtitle { color: #556; font-size: 0.95rem; }
+        .filters {
+            display: flex; flex-wrap: wrap; gap: 12px;
+            background: #fff; padding: 16px; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1 1 160px; }
+        .filter-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: #667; font-weight: 600; }
+        select, input[type="text"] {
+            padding: 9px 12px; border: 1px solid #ccd3da; border-radius: 8px;
+            font-size: 0.95rem; background: #fff; outline: none; transition: border 0.15s;
+        }
+        select:focus, input[type="text"]:focus { border-color: #4a6cf7; }
+        .search-group { flex: 2 1 240px; }
+        .stats { font-size: 0.85rem; color: #667; margin-bottom: 12px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+        .card {
+            background: #fff; border-radius: 12px; padding: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05); border-left: 4px solid #4a6cf7;
+            transition: transform 0.12s, box-shadow 0.12s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+        .card-title { font-weight: 650; font-size: 0.98rem; }
+        .badge {
+            font-size: 0.68rem; padding: 2px 8px; border-radius: 20px;
+            background: #eef1ff; color: #4a6cf7; font-weight: 600; white-space: nowrap;
+        }
+        .card-meta { font-size: 0.82rem; color: #667; }
+        .empty {
+            grid-column: 1 / -1; text-align: center; padding: 40px 20px;
+            color: #889; background: #fff; border-radius: 12px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            .filters { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Скрытые функции VAG</h1>
+        <p class="subtitle">Справочник функций для Audi, Volkswagen, Škoda и SEAT до 2019 года включительно. Только список — без инструкций по кодированию.</p>
+    </header>
+
+    <div class="filters">
+        <div class="filter-group">
+            <label for="brandSelect">Марка</label>
+            <select id="brandSelect"><option value="">Все марки</option></select>
+        </div>
+        <div class="filter-group">
+            <label for="modelSelect">Модель</label>
+            <select id="modelSelect"><option value="">Все модели</option></select>
+        </div>
+        <div class="filter-group">
+            <label for="categorySelect">Категория</label>
+            <select id="categorySelect"><option value="">Все категории</option></select>
+        </div>
+        <div class="filter-group search-group">
+            <label for="searchInput">Поиск</label>
+            <input type="text" id="searchInput" placeholder="Название функции...">
+        </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="cards" id="cards"></div>
+</div>
+
+<script>
+    // ---------- МОДЕЛИ ----------
+    const models = [
+        // Audi
+        { id: 'audi-a3-8p', brand: 'Audi', model: 'A3 (8P)', platform: 'PQ35', years: '2003–2012' },
+        { id: 'audi-a3-8v', brand: 'Audi', model: 'A3 (8V)', platform: 'MQB', years: '2012–2020' },
+        { id: 'audi-a4-b8', brand: 'Audi', model: 'A4 (B8)', platform: 'MLB', years: '2007–2015' },
+        { id: 'audi-a6-c7', brand: 'Audi', model: 'A6 (C7)', platform: 'MLB', years: '2011–2018' },
+        { id: 'audi-q3-8u', brand: 'Audi', model: 'Q3 (8U)', platform: 'PQ35', years: '2011–2018' },
+        { id: 'audi-q5-8r', brand: 'Audi', model: 'Q5 (8R)', platform: 'MLB', years: '2008–2017' },
+        { id: 'audi-tt-8s', brand: 'Audi', model: 'TT (8S)', platform: 'MQB', years: '2014–2019' },
+
+        // Volkswagen
+        { id: 'vw-golf-6', brand: 'Volkswagen', model: 'Golf 6', platform: 'PQ35', years: '2008–2012' },
+        { id: 'vw-golf-7', brand: 'Volkswagen', model: 'Golf 7', platform: 'MQB', years: '2012–2019' },
+        { id: 'vw-passat-b7', brand: 'Volkswagen', model: 'Passat B7', platform: 'PQ46', years: '2010–2014' },
+        { id: 'vw-passat-b8', brand: 'Volkswagen', model: 'Passat B8', platform: 'MQB', years: '2014–2019' },
+        { id: 'vw-polo-6r', brand: 'Volkswagen', model: 'Polo (6R/6C)', platform: 'PQ25', years: '2009–2019' },
+        { id: 'vw-tiguan-5n', brand: 'Volkswagen', model: 'Tiguan (5N)', platform: 'PQ35', years: '2007–2016' },
+        { id: 'vw-tiguan-ad', brand: 'Volkswagen', model: 'Tiguan II (AD)', platform: 'MQB', years: '2016–2019' },
+        { id: 'vw-touran-1t', brand: 'Volkswagen', model: 'Touran (1T)', platform: 'PQ35', years: '2003–2015' },
+        { id: 'vw-touran-5t', brand: 'Volkswagen', model: 'Touran II (5T)', platform: 'MQB', years: '2015–2019' },
+
+        // Škoda
+        { id: 'skoda-octavia-a5', brand: 'Škoda', model: 'Octavia A5', platform: 'PQ35', years: '2004–2013' },
+        { id: 'skoda-octavia-a7', brand: 'Škoda', model: 'Octavia A7', platform: 'MQB', years: '2013–2019' },
+        { id: 'skoda-superb-b6', brand: 'Škoda', model: 'Superb B6', platform: 'PQ46', years: '2008–2015' },
+        { id: 'skoda-superb-b8', brand: 'Škoda', model: 'Superb B8', platform: 'MQB', years: '2015–2019' },
+        { id: 'skoda-fabia-5j', brand: 'Škoda', model: 'Fabia (5J)', platform: 'PQ25', years: '2007–2014' },
+        { id: 'skoda-yeti-5l', brand: 'Škoda', model: 'Yeti (5L)', platform: 'PQ35', years: '2009–2017' },
+        { id: 'skoda-kodiaq-ns', brand: 'Škoda', model: 'Kodiaq (NS)', platform: 'MQB', years: '2016–2019' },
+
+        // SEAT
+        { id: 'seat-leon-mk2', brand: 'SEAT', model: 'Leon Mk2', platform: 'PQ35', years: '2005–2012' },
+        { id: 'seat-leon-mk3', brand: 'SEAT', model: 'Leon Mk3', platform: 'MQB', years: '2012–2019' },
+        { id: 'seat-ibiza-6j', brand: 'SEAT', model: 'Ibiza (6J)', platform: 'PQ25', years: '2008–2017' },
+        { id: 'seat-ateca', brand: 'SEAT', model: 'Ateca', platform: 'MQB', years: '2016–2019' },
+        { id: 'seat-toledo-nh', brand: 'SEAT', model: 'Toledo Mk4', platform: 'PQ25', years: '2012–2019' }
+    ];
+
+    // ---------- ФУНКЦИИ ----------
+    // Каждая функция содержит массив id моделей, к которым она применима.
+    const features = [
+        {
+            name: 'Тест стрелок (Needle Sweep)',
+            category: 'Приборная панель',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q3-8u','audi-q5-8r','audi-tt-8s','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
+        },
+        {
+            name: 'Отключение напоминания о ремне безопасности',
+            category: 'Безопасность',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-toledo-nh']
+        },
+        {
+            name: 'Складывание зеркал при закрытии',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq-ns','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Опускание правого зеркала при заднем ходе',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+        },
+        {
+            name: 'Комфортный указатель поворота (3 → 5 вспышек)',
+            category: 'Освещение',
+            models: ['audi-a3-8v','vw-golf-6','vw-golf-7','vw-passat-b8','vw-polo-6r','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ibiza-6j']
+        },
+        {
+            name: 'Coming Home / Leaving Home',
+            category: 'Освещение',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Отключение ДХО (или включение меню в MMI/Infotainment)',
+            category: 'Освещение',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Задние габариты вместе с ДХО',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Отображение запаса топлива (Refuel Quantity)',
+            category: 'Приборная панель',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+        },
+        {
+            name: 'Таймер круга / температура масла',
+            category: 'Приборная панель',
+            models: ['audi-a3-8v','audi-tt-8s','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Видео в движении (VIM)',
+            category: 'Мультимедиа',
+            models: ['audi-a3-8v','audi-a4-b8','audi-a6-c7','vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+        },
+        {
+            name: 'Звуковой сигнал при блокировке / разблокировке',
+            category: 'Комфорт',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3','seat-ibiza-6j']
+        },
+        {
+            name: 'Автоматическая блокировка дверей (Auto Lock)',
+            category: 'Комфорт',
+            models: ['audi-a3-8p','audi-a3-8v','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk2','seat-leon-mk3']
+        },
+        {
+            name: 'Отключение заднего дворника при движении задним ходом',
+            category: 'Комфорт',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Активация XDS (электронная блокировка дифференциала)',
+            category: 'Динамика',
+            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'ESC Sport / отключение ESC',
+            category: 'Динамика',
+            models: ['skoda-octavia-a7','seat-leon-mk3','vw-golf-7']
+        },
+        {
+            name: 'Помощник трогания на подъёме (HHC)',
+            category: 'Динамика',
+            models: ['skoda-octavia-a7','vw-golf-7','seat-leon-mk3']
+        },
+        {
+            name: 'Косвенное измерение давления в шинах (TPMS)',
+            category: 'Безопасность',
+            models: ['skoda-octavia-a7','vw-golf-7','seat-leon-mk3']
+        },
+        {
+            name: 'Отключение омывателя фар',
+            category: 'Освещение',
+            models: ['audi-a4-b8','audi-a6-c7','vw-passat-b8','skoda-superb-b8']
+        },
+        {
+            name: 'Голосовое управление',
+            category: 'Мультимедиа',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-7','vw-passat-b8','skoda-octavia-a7']
+        },
+        {
+            name: 'Скрытое меню MMI (Green Menu)',
+            category: 'Мультимедиа',
+            models: ['audi-a4-b8','audi-a6-c7','audi-q5-8r']
+        },
+        {
+            name: 'Отключение после-взмаха дворников (After-wipe)',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','vw-golf-6','vw-golf-7','skoda-octavia-a7']
+        },
+        {
+            name: 'Комфортное открытие / закрытие окон с ключа',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Эффект «стробоскоп» (через ДХО / ПТФ)',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+        }
+    ];
+
+    // ---------- ЛОГИКА САЙТА ----------
+    const brandSelect = document.getElementById('brandSelect');
+    const modelSelect = document.getElementById('modelSelect');
+    const categorySelect = document.getElementById('categorySelect');
+    const searchInput = document.getElementById('searchInput');
+    const cardsContainer = document.getElementById('cards');
+    const statsEl = document.getElementById('stats');
+
+    function populateBrands() {
+        const brands = [...new Set(models.map(m => m.brand))].sort();
+        brands.forEach(b => {
+            const opt = document.createElement('option');
+            opt.value = b; opt.textContent = b;
+            brandSelect.appendChild(opt);
+        });
+    }
+
+    function populateModels(brand) {
+        modelSelect.innerHTML = '<option value="">Все модели</option>';
+        const filtered = brand ? models.filter(m => m.brand === brand) : models;
+        filtered.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.id; opt.textContent = `${m.model} (${m.years})`;
+            modelSelect.appendChild(opt);
+        });
+    }
+
+    function populateCategories() {
+        const cats = [...new Set(features.map(f => f.category))].sort();
+        cats.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c; opt.textContent = c;
+            categorySelect.appendChild(opt);
+        });
+    }
+
+    function render() {
+        const brand = brandSelect.value;
+        const modelId = modelSelect.value;
+        const category = categorySelect.value;
+        const query = searchInput.value.trim().toLowerCase();
+
+        let filteredModels = models;
+        if (brand) filteredModels = filteredModels.filter(m => m.brand === brand);
+        if (modelId) filteredModels = filteredModels.filter(m => m.id === modelId);
+
+        let visibleFeatures = features;
+
+        if (modelId) {
+            visibleFeatures = visibleFeatures.filter(f => f.models.includes(modelId));
+        } else if (brand) {
+            const idsInBrand = new Set(filteredModels.map(m => m.id));
+            visibleFeatures = visibleFeatures.filter(f => f.models.some(id => idsInBrand.has(id)));
+        }
+
+        if (category) visibleFeatures = visibleFeatures.filter(f => f.category === category);
+        if (query) visibleFeatures = visibleFeatures.filter(f => f.name.toLowerCase().includes(query));
+
+        // Статистика
+        if (visibleFeatures.length === 0) {
+            statsEl.textContent = 'Ничего не найдено. Попробуйте изменить фильтры.';
+        } else {
+            statsEl.textContent = `Найдено функций: ${visibleFeatures.length}`;
+        }
+
+        // Отрисовка карточек
+        cardsContainer.innerHTML = '';
+        if (visibleFeatures.length === 0) {
+            cardsContainer.innerHTML = '<div class="empty">По выбранным фильтрам функций нет.</div>';
+            return;
+        }
+
+        visibleFeatures.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="card-title">${f.name}</span>
+                    <span class="badge">${f.category}</span>
+                </div>
+                <div class="card-meta">${modelNamesForFeature(f)}</div>
+            `;
+            cardsContainer.appendChild(card);
+        });
+    }
+
+    function modelNamesForFeature(feature) {
+        const names = feature.models.map(id => {
+            const m = models.find(x => x.id === id);
+            return m ? `${m.brand} ${m.model}` : id;
+        });
+        // Убираем дубли и ограничиваем длину для читаемости
+        const unique = [...new Set(names)];
+        if (unique.length > 4) {
+            return unique.slice(0, 4).join(', ') + ` и ещё ${unique.length - 4}...`;
+        }
+        return unique.join(', ');
+    }
+
+    // Инициализация
+    populateBrands();
+    populateModels('');
+    populateCategories();
+    render();
+
+    // Слушатели
+    brandSelect.addEventListener('change', () => {
+        populateModels(brandSelect.value);
+        render();
+    });
+    modelSelect.addEventListener('change', render);
+    categorySelect.addEventListener('change', render);
+    searchInput.addEventListener('input', render);
+</script>
+</body>
+</html>
