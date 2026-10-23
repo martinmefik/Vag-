@@ -3,55 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Скрытые функции VAG (до 2019)</title>
+    <title>Скрытые функции VAG — полный справочник (до 2019)</title>
     <style>
+        :root {
+            --bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-hover: 0 10px 25px rgba(0,0,0,0.08);
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: #f4f6f8;
-            color: #1a1a2e;
-            line-height: 1.5;
-            padding: 20px;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.55;
+            padding: 24px 16px 60px;
         }
-        .container { max-width: 1100px; margin: 0 auto; }
-        header { margin-bottom: 24px; }
-        h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
-        .subtitle { color: #556; font-size: 0.95rem; }
+        .container { max-width: 1280px; margin: 0 auto; }
+        header { margin-bottom: 28px; text-align: center; }
+        h1 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+        .subtitle { color: var(--text-muted); font-size: 0.95rem; max-width: 760px; margin: 0 auto; }
         .filters {
-            display: flex; flex-wrap: wrap; gap: 12px;
-            background: #fff; padding: 16px; border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            background: var(--card-bg);
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 18px;
+            position: sticky; top: 0; z-index: 10;
+            backdrop-filter: blur(8px);
         }
-        .filter-group { display: flex; flex-direction: column; gap: 4px; flex: 1 1 160px; }
-        .filter-group label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: #667; font-weight: 600; }
+        .filter-group { display: flex; flex-direction: column; gap: 5px; }
+        .filter-group label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 600; }
         select, input[type="text"] {
-            padding: 9px 12px; border: 1px solid #ccd3da; border-radius: 8px;
-            font-size: 0.95rem; background: #fff; outline: none; transition: border 0.15s;
+            padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
+            font-size: 0.9rem; background: #fff; outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
-        select:focus, input[type="text"]:focus { border-color: #4a6cf7; }
-        .search-group { flex: 2 1 240px; }
-        .stats { font-size: 0.85rem; color: #667; margin-bottom: 12px; }
-        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+        select:focus, input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px; }
+        .stats { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
+        .stats strong { color: var(--text); }
+        .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
         .card {
-            background: #fff; border-radius: 12px; padding: 16px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.05); border-left: 4px solid #4a6cf7;
-            transition: transform 0.12s, box-shadow 0.12s;
+            background: var(--card-bg); border-radius: 16px; padding: 18px;
+            box-shadow: var(--shadow); border: 1px solid var(--border);
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: flex; flex-direction: column;
         }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
-        .card-title { font-weight: 650; font-size: 0.98rem; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+        .card-title { font-weight: 650; font-size: 1rem; line-height: 1.35; }
         .badge {
-            font-size: 0.68rem; padding: 2px 8px; border-radius: 20px;
-            background: #eef1ff; color: #4a6cf7; font-weight: 600; white-space: nowrap;
+            font-size: 0.65rem; padding: 3px 10px; border-radius: 999px;
+            background: var(--primary-light); color: var(--primary); font-weight: 600; white-space: nowrap; flex-shrink: 0;
         }
-        .card-meta { font-size: 0.82rem; color: #667; }
+        .card-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: auto; padding-top: 10px; border-top: 1px dashed var(--border); }
         .empty {
-            grid-column: 1 / -1; text-align: center; padding: 40px 20px;
-            color: #889; background: #fff; border-radius: 12px;
+            grid-column: 1 / -1; text-align: center; padding: 60px 20px;
+            color: var(--text-muted); background: var(--card-bg); border-radius: 16px; border: 1px dashed var(--border);
         }
-        @media (max-width: 600px) {
-            body { padding: 12px; }
-            .filters { flex-direction: column; }
+        .empty-icon { font-size: 2rem; margin-bottom: 10px; }
+        @media (max-width: 640px) {
+            body { padding: 14px 10px 40px; }
+            h1 { font-size: 1.45rem; }
+            .filters { grid-template-columns: 1fr; position: static; }
+            .cards { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -59,7 +83,7 @@
 <div class="container">
     <header>
         <h1>Скрытые функции VAG</h1>
-        <p class="subtitle">Справочник функций для Audi, Volkswagen, Škoda и SEAT до 2019 года включительно. Только список — без инструкций по кодированию.</p>
+        <p class="subtitle">Справочник для Audi, Volkswagen, Škoda и SEAT до 2019 года включительно. Более 35 моделей и 40 функций — только список, без инструкций по кодированию.</p>
     </header>
 
     <div class="filters">
@@ -75,182 +99,300 @@
             <label for="categorySelect">Категория</label>
             <select id="categorySelect"><option value="">Все категории</option></select>
         </div>
-        <div class="filter-group search-group">
-            <label for="searchInput">Поиск</label>
-            <input type="text" id="searchInput" placeholder="Название функции...">
+        <div class="filter-group">
+            <label for="searchInput">Поиск по названию</label>
+            <input type="text" id="searchInput" placeholder="Например: зеркала, ДХО, стрелки...">
         </div>
     </div>
 
-    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+        <div class="stats" id="stats"></div>
+    </div>
     <div class="cards" id="cards"></div>
 </div>
 
 <script>
-    // ---------- МОДЕЛИ ----------
+    // ======================== МОДЕЛИ ========================
     const models = [
-        // Audi
+        // ---------- AUDI ----------
+        { id: 'audi-a1-8x', brand: 'Audi', model: 'A1 (8X)', platform: 'PQ25', years: '2010–2018' },
         { id: 'audi-a3-8p', brand: 'Audi', model: 'A3 (8P)', platform: 'PQ35', years: '2003–2012' },
-        { id: 'audi-a3-8v', brand: 'Audi', model: 'A3 (8V)', platform: 'MQB', years: '2012–2020' },
+        { id: 'audi-a3-8v', brand: 'Audi', model: 'A3 (8V)', platform: 'MQB', years: '2012–2019' },
         { id: 'audi-a4-b8', brand: 'Audi', model: 'A4 (B8)', platform: 'MLB', years: '2007–2015' },
+        { id: 'audi-a5-8t', brand: 'Audi', model: 'A5 (8T)', platform: 'MLB', years: '2007–2016' },
         { id: 'audi-a6-c7', brand: 'Audi', model: 'A6 (C7)', platform: 'MLB', years: '2011–2018' },
+        { id: 'audi-q2', brand: 'Audi', model: 'Q2', platform: 'MQB', years: '2016–2019' },
         { id: 'audi-q3-8u', brand: 'Audi', model: 'Q3 (8U)', platform: 'PQ35', years: '2011–2018' },
         { id: 'audi-q5-8r', brand: 'Audi', model: 'Q5 (8R)', platform: 'MLB', years: '2008–2017' },
         { id: 'audi-tt-8s', brand: 'Audi', model: 'TT (8S)', platform: 'MQB', years: '2014–2019' },
 
-        // Volkswagen
+        // ---------- VOLKSWAGEN ----------
+        { id: 'vw-golf-5', brand: 'Volkswagen', model: 'Golf 5', platform: 'PQ35', years: '2003–2008' },
         { id: 'vw-golf-6', brand: 'Volkswagen', model: 'Golf 6', platform: 'PQ35', years: '2008–2012' },
         { id: 'vw-golf-7', brand: 'Volkswagen', model: 'Golf 7', platform: 'MQB', years: '2012–2019' },
+        { id: 'vw-passat-b6', brand: 'Volkswagen', model: 'Passat B6', platform: 'PQ46', years: '2005–2010' },
         { id: 'vw-passat-b7', brand: 'Volkswagen', model: 'Passat B7', platform: 'PQ46', years: '2010–2014' },
         { id: 'vw-passat-b8', brand: 'Volkswagen', model: 'Passat B8', platform: 'MQB', years: '2014–2019' },
         { id: 'vw-polo-6r', brand: 'Volkswagen', model: 'Polo (6R/6C)', platform: 'PQ25', years: '2009–2019' },
-        { id: 'vw-tiguan-5n', brand: 'Volkswagen', model: 'Tiguan (5N)', platform: 'PQ35', years: '2007–2016' },
+        { id: 'vw-tiguan-5n', brand: 'Volkswagen', model: 'Tiguan I (5N)', platform: 'PQ35', years: '2007–2016' },
         { id: 'vw-tiguan-ad', brand: 'Volkswagen', model: 'Tiguan II (AD)', platform: 'MQB', years: '2016–2019' },
-        { id: 'vw-touran-1t', brand: 'Volkswagen', model: 'Touran (1T)', platform: 'PQ35', years: '2003–2015' },
+        { id: 'vw-touran-1t', brand: 'Volkswagen', model: 'Touran I (1T)', platform: 'PQ35', years: '2003–2015' },
         { id: 'vw-touran-5t', brand: 'Volkswagen', model: 'Touran II (5T)', platform: 'MQB', years: '2015–2019' },
+        { id: 'vw-jetta-5', brand: 'Volkswagen', model: 'Jetta V', platform: 'PQ35', years: '2005–2010' },
+        { id: 'vw-jetta-6', brand: 'Volkswagen', model: 'Jetta VI', platform: 'PQ35', years: '2010–2018' },
+        { id: 'vw-scirocco', brand: 'Volkswagen', model: 'Scirocco III', platform: 'PQ35', years: '2008–2017' },
+        { id: 'vw-t-roc', brand: 'Volkswagen', model: 'T-Roc', platform: 'MQB', years: '2017–2019' },
+        { id: 'vw-teramont', brand: 'Volkswagen', model: 'Teramont', platform: 'MQB', years: '2017–2019' },
+        { id: 'vw-arteon', brand: 'Volkswagen', model: 'Arteon', platform: 'MQB', years: '2017–2019' },
 
-        // Škoda
+        // ---------- ŠKODA ----------
         { id: 'skoda-octavia-a5', brand: 'Škoda', model: 'Octavia A5', platform: 'PQ35', years: '2004–2013' },
         { id: 'skoda-octavia-a7', brand: 'Škoda', model: 'Octavia A7', platform: 'MQB', years: '2013–2019' },
         { id: 'skoda-superb-b6', brand: 'Škoda', model: 'Superb B6', platform: 'PQ46', years: '2008–2015' },
         { id: 'skoda-superb-b8', brand: 'Škoda', model: 'Superb B8', platform: 'MQB', years: '2015–2019' },
         { id: 'skoda-fabia-5j', brand: 'Škoda', model: 'Fabia (5J)', platform: 'PQ25', years: '2007–2014' },
         { id: 'skoda-yeti-5l', brand: 'Škoda', model: 'Yeti (5L)', platform: 'PQ35', years: '2009–2017' },
-        { id: 'skoda-kodiaq-ns', brand: 'Škoda', model: 'Kodiaq (NS)', platform: 'MQB', years: '2016–2019' },
+        { id: 'skoda-kodiaq', brand: 'Škoda', model: 'Kodiaq', platform: 'MQB', years: '2016–2019' },
+        { id: 'skoda-karoq', brand: 'Škoda', model: 'Karoq', platform: 'MQB', years: '2017–2019' },
+        { id: 'skoda-rapid', brand: 'Škoda', model: 'Rapid', platform: 'PQ25', years: '2012–2019' },
 
-        // SEAT
+        // ---------- SEAT ----------
         { id: 'seat-leon-mk2', brand: 'SEAT', model: 'Leon Mk2', platform: 'PQ35', years: '2005–2012' },
         { id: 'seat-leon-mk3', brand: 'SEAT', model: 'Leon Mk3', platform: 'MQB', years: '2012–2019' },
         { id: 'seat-ibiza-6j', brand: 'SEAT', model: 'Ibiza (6J)', platform: 'PQ25', years: '2008–2017' },
         { id: 'seat-ateca', brand: 'SEAT', model: 'Ateca', platform: 'MQB', years: '2016–2019' },
-        { id: 'seat-toledo-nh', brand: 'SEAT', model: 'Toledo Mk4', platform: 'PQ25', years: '2012–2019' }
+        { id: 'seat-toledo-nh', brand: 'SEAT', model: 'Toledo Mk4', platform: 'PQ25', years: '2012–2019' },
+        { id: 'seat-altea-mk2', brand: 'SEAT', model: 'Altea Mk2', platform: 'PQ35', years: '2004–2015' },
+        { id: 'seat-arona', brand: 'SEAT', model: 'Arona', platform: 'MQB', years: '2017–2019' }
     ];
 
-    // ---------- ФУНКЦИИ ----------
+    // ======================== ФУНКЦИИ ========================
     // Каждая функция содержит массив id моделей, к которым она применима.
     const features = [
+        // --- ПРИБОРНАЯ ПАНЕЛЬ ---
         {
             name: 'Тест стрелок (Needle Sweep)',
             category: 'Приборная панель',
-            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q3-8u','audi-q5-8r','audi-tt-8s','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
-        },
-        {
-            name: 'Отключение напоминания о ремне безопасности',
-            category: 'Безопасность',
-            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-toledo-nh']
-        },
-        {
-            name: 'Складывание зеркал при закрытии',
-            category: 'Комфорт',
-            models: ['audi-a3-8v','audi-a4-b8','vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq-ns','seat-leon-mk3','seat-ateca']
-        },
-        {
-            name: 'Опускание правого зеркала при заднем ходе',
-            category: 'Комфорт',
-            models: ['audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
-        },
-        {
-            name: 'Комфортный указатель поворота (3 → 5 вспышек)',
-            category: 'Освещение',
-            models: ['audi-a3-8v','vw-golf-6','vw-golf-7','vw-passat-b8','vw-polo-6r','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ibiza-6j']
-        },
-        {
-            name: 'Coming Home / Leaving Home',
-            category: 'Освещение',
-            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
-        },
-        {
-            name: 'Отключение ДХО (или включение меню в MMI/Infotainment)',
-            category: 'Освещение',
-            models: ['audi-a3-8v','audi-a4-b8','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
-        },
-        {
-            name: 'Задние габариты вместе с ДХО',
-            category: 'Освещение',
-            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a5-8t','audi-a6-c7','audi-q3-8u','audi-q5-8r','audi-tt-8s','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','vw-jetta-5','vw-jetta-6','vw-scirocco','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','skoda-yeti-5l','skoda-kodiaq','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca','seat-altea-mk2']
         },
         {
             name: 'Отображение запаса топлива (Refuel Quantity)',
             category: 'Приборная панель',
-            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+            models: ['vw-golf-7','vw-passat-b8','vw-polo-6r','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq','skoda-karoq','seat-leon-mk3','seat-ateca','seat-arona']
         },
         {
-            name: 'Таймер круга / температура масла',
+            name: 'Таймер круга (Lap Timer)',
             category: 'Приборная панель',
-            models: ['audi-a3-8v','audi-tt-8s','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+            models: ['audi-a3-8v','audi-a4-b8','audi-tt-8s','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
         },
         {
-            name: 'Видео в движении (VIM)',
-            category: 'Мультимедиа',
-            models: ['audi-a3-8v','audi-a4-b8','audi-a6-c7','vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+            name: 'Смена скина / заставки приборной панели (RS, Sportline, Scout)',
+            category: 'Приборная панель',
+            models: ['skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq','vw-golf-7','vw-passat-b8']
         },
         {
-            name: 'Звуковой сигнал при блокировке / разблокировке',
-            category: 'Комфорт',
-            models: ['vw-golf-6','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3','seat-ibiza-6j']
+            name: 'Отключение напоминания о ремне безопасности',
+            category: 'Приборная панель',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q5-8r','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-toledo-nh']
         },
         {
-            name: 'Автоматическая блокировка дверей (Auto Lock)',
-            category: 'Комфорт',
-            models: ['audi-a3-8p','audi-a3-8v','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk2','seat-leon-mk3']
-        },
-        {
-            name: 'Отключение заднего дворника при движении задним ходом',
-            category: 'Комфорт',
+            name: 'Отключение звука/сообщения о включенном зажигании при открытии двери',
+            category: 'Приборная панель',
             models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
         },
+
+        // --- ОСВЕЩЕНИЕ ---
         {
-            name: 'Активация XDS (электронная блокировка дифференциала)',
-            category: 'Динамика',
-            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+            name: 'Coming Home / Leaving Home',
+            category: 'Освещение',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q5-8r','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
         },
         {
-            name: 'ESC Sport / отключение ESC',
-            category: 'Динамика',
-            models: ['skoda-octavia-a7','seat-leon-mk3','vw-golf-7']
+            name: 'Отключение ДХО (или включение меню в MMI/Infotainment)',
+            category: 'Освещение',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-polo-6r','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
         },
         {
-            name: 'Помощник трогания на подъёме (HHC)',
-            category: 'Динамика',
-            models: ['skoda-octavia-a7','vw-golf-7','seat-leon-mk3']
+            name: 'Включение задних габаритов вместе с ДХО',
+            category: 'Освещение',
+            models: ['vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
         },
         {
-            name: 'Косвенное измерение давления в шинах (TPMS)',
-            category: 'Безопасность',
-            models: ['skoda-octavia-a7','vw-golf-7','seat-leon-mk3']
+            name: 'Комфортный указатель поворота (3 → 5 вспышек)',
+            category: 'Освещение',
+            models: ['audi-a3-8v','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b8','vw-polo-6r','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
+        },
+        {
+            name: 'Cornering Lights (подсветка поворотов противотуманками)',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-5n','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j','seat-ateca']
         },
         {
             name: 'Отключение омывателя фар',
             category: 'Освещение',
-            models: ['audi-a4-b8','audi-a6-c7','vw-passat-b8','skoda-superb-b8']
+            models: ['audi-a4-b8','audi-a6-c7','vw-passat-b6','vw-passat-b8','skoda-superb-b8','skoda-octavia-a7']
         },
         {
-            name: 'Голосовое управление',
-            category: 'Мультимедиа',
-            models: ['audi-a3-8v','audi-a4-b8','vw-golf-7','vw-passat-b8','skoda-octavia-a7']
+            name: 'Прописка светодиодных ламп (без ошибки) / яркость ламп',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
         },
         {
-            name: 'Скрытое меню MMI (Green Menu)',
-            category: 'Мультимедиа',
-            models: ['audi-a4-b8','audi-a6-c7','audi-q5-8r']
+            name: 'Активация правого заднего противотуманного фонаря',
+            category: 'Освещение',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
         },
         {
-            name: 'Отключение после-взмаха дворников (After-wipe)',
+            name: 'Стробоскопы (ДХО/ПТФ при моргании дальним)',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Отключение ДХО при поднятом ручнике',
+            category: 'Освещение',
+            models: ['vw-golf-6','vw-golf-7','vw-polo-6r','skoda-octavia-a7','seat-ibiza-6j','seat-leon-mk3']
+        },
+
+        // --- КОМФОРТ ---
+        {
+            name: 'Складывание зеркал при закрытии',
             category: 'Комфорт',
-            models: ['audi-a3-8v','vw-golf-6','vw-golf-7','skoda-octavia-a7']
+            models: ['audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q5-8r','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Опускание правого зеркала при заднем ходе',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','audi-a4-b8','audi-a6-c7','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+        },
+        {
+            name: 'Автоматическая блокировка дверей (Auto Lock)',
+            category: 'Комфорт',
+            models: ['audi-a3-8p','audi-a3-8v','audi-a4-b8','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','vw-polo-6r','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b6','skoda-superb-b8','seat-leon-mk2','seat-leon-mk3','seat-ibiza-6j']
+        },
+        {
+            name: 'Звуковой сигнал при блокировке / разблокировке',
+            category: 'Комфорт',
+            models: ['vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b8','vw-polo-6r','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk3','seat-ibiza-6j']
         },
         {
             name: 'Комфортное открытие / закрытие окон с ключа',
             category: 'Комфорт',
-            models: ['audi-a3-8v','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
         },
         {
-            name: 'Эффект «стробоскоп» (через ДХО / ПТФ)',
-            category: 'Освещение',
-            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','seat-leon-mk3']
+            name: 'Отключение заднего дворника при движении задним ходом',
+            category: 'Комфорт',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Отключение после-взмаха дворников (After-wipe)',
+            category: 'Комфорт',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Easy Entry (отодвигание сиденья для удобной посадки)',
+            category: 'Комфорт',
+            models: ['seat-ateca','seat-leon-mk3','vw-tiguan-ad','skoda-kodiaq']
+        },
+        {
+            name: 'Настройка датчика дождя / авто-закрытие окон при дожде',
+            category: 'Комфорт',
+            models: ['vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk3','seat-ibiza-6j']
+        },
+        {
+            name: 'Изменение времени обогрева зеркал и заднего стекла',
+            category: 'Комфорт',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk3']
+        },
+
+        // --- ДИНАМИКА И УПРАВЛЕНИЕ ---
+        {
+            name: 'Активация XDS (электронная блокировка дифференциала)',
+            category: 'Динамика',
+            models: ['vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','vw-scirocco','skoda-octavia-a5','skoda-octavia-a7','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk2','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'ESC Sport / меню ESC',
+            category: 'Динамика',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Помощник трогания на подъёме (HHC)',
+            category: 'Динамика',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','skoda-yeti-5l','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Настройка рулевой рейки (профиль вождения / усилие на руле)',
+            category: 'Динамика',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Ассистент контроля полосы (TSC / Lane Assist)',
+            category: 'Динамика',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Адаптивный круиз-контроль (ACC) / лимитер',
+            category: 'Динамика',
+            models: ['vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-kodiaq','seat-ateca']
+        },
+        {
+            name: 'Просушка тормозных дисков (Disk Drying)',
+            category: 'Динамика',
+            models: ['vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Настройка реакции на педаль акселератора',
+            category: 'Динамика',
+            models: ['vw-golf-6','vw-golf-7','skoda-octavia-a7','skoda-yeti-5l','seat-leon-mk3']
+        },
+
+        // --- МУЛЬТИМЕДИА ---
+        {
+            name: 'Видео в движении (VIM)',
+            category: 'Мультимедиа',
+            models: ['audi-a3-8v','audi-a4-b8','audi-a6-c7','audi-q5-8r','vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3']
+        },
+        {
+            name: 'Скрытое меню MMI (Green Menu) / инженерное меню',
+            category: 'Мультимедиа',
+            models: ['audi-a4-b8','audi-a6-c7','audi-q5-8r','audi-a3-8v','vw-golf-6','vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8']
+        },
+        {
+            name: 'Голосовое управление',
+            category: 'Мультимедиа',
+            models: ['audi-a3-8v','audi-a4-b8','vw-golf-7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Bluetooth-аудио (A2DP)',
+            category: 'Мультимедиа',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b7','vw-passat-b8','skoda-octavia-a7','seat-leon-mk3','seat-ibiza-6j']
+        },
+        {
+            name: 'Спортивный layout виртуальной приборной панели (Virtual Cockpit)',
+            category: 'Мультимедиа',
+            models: ['audi-a3-8v','audi-a4-b8','audi-tt-8s','vw-golf-7','vw-passat-b8','skoda-octavia-a7','skoda-superb-b8']
+        },
+
+        // --- БЕЗОПАСНОСТЬ ---
+        {
+            name: 'Косвенное измерение давления в шинах (TPMS)',
+            category: 'Безопасность',
+            models: ['vw-golf-6','vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','skoda-kodiaq','seat-leon-mk3','seat-ateca']
+        },
+        {
+            name: 'Адаптивные стоп-сигналы (мигание при экстренном торможении)',
+            category: 'Безопасность',
+            models: ['vw-golf-5','vw-golf-6','vw-golf-7','vw-passat-b6','vw-passat-b7','vw-passat-b8','skoda-octavia-a5','skoda-octavia-a7','seat-leon-mk3']
+        },
+        {
+            name: 'Отключение старт-стоп системы',
+            category: 'Безопасность',
+            models: ['vw-golf-7','vw-passat-b8','vw-tiguan-ad','skoda-octavia-a7','skoda-superb-b8','seat-leon-mk3','seat-ateca']
         }
     ];
 
-    // ---------- ЛОГИКА САЙТА ----------
+    // ======================== ЛОГИКА ========================
     const brandSelect = document.getElementById('brandSelect');
     const modelSelect = document.getElementById('modelSelect');
     const categorySelect = document.getElementById('categorySelect');
@@ -258,7 +400,7 @@
     const cardsContainer = document.getElementById('cards');
     const statsEl = document.getElementById('stats');
 
-    function populateBrands() {
+    function initBrands() {
         const brands = [...new Set(models.map(m => m.brand))].sort();
         brands.forEach(b => {
             const opt = document.createElement('option');
@@ -267,23 +409,36 @@
         });
     }
 
-    function populateModels(brand) {
+    function refreshModels(brand) {
         modelSelect.innerHTML = '<option value="">Все модели</option>';
         const filtered = brand ? models.filter(m => m.brand === brand) : models;
         filtered.forEach(m => {
             const opt = document.createElement('option');
-            opt.value = m.id; opt.textContent = `${m.model} (${m.years})`;
+            opt.value = m.id;
+            opt.textContent = `${m.model} (${m.years})`;
             modelSelect.appendChild(opt);
         });
     }
 
-    function populateCategories() {
+    function initCategories() {
         const cats = [...new Set(features.map(f => f.category))].sort();
         cats.forEach(c => {
             const opt = document.createElement('option');
             opt.value = c; opt.textContent = c;
             categorySelect.appendChild(opt);
         });
+    }
+
+    function modelNamesForFeature(feature) {
+        const names = feature.models.map(id => {
+            const m = models.find(x => x.id === id);
+            return m ? `${m.brand} ${m.model}` : id;
+        });
+        const unique = [...new Set(names)];
+        if (unique.length > 3) {
+            return unique.slice(0, 3).join(', ') + ` и ещё ${unique.length - 3}...`;
+        }
+        return unique.join(', ');
     }
 
     function render() {
@@ -296,37 +451,36 @@
         if (brand) filteredModels = filteredModels.filter(m => m.brand === brand);
         if (modelId) filteredModels = filteredModels.filter(m => m.id === modelId);
 
-        let visibleFeatures = features;
+        let visible = features;
 
         if (modelId) {
-            visibleFeatures = visibleFeatures.filter(f => f.models.includes(modelId));
+            visible = visible.filter(f => f.models.includes(modelId));
         } else if (brand) {
             const idsInBrand = new Set(filteredModels.map(m => m.id));
-            visibleFeatures = visibleFeatures.filter(f => f.models.some(id => idsInBrand.has(id)));
+            visible = visible.filter(f => f.models.some(id => idsInBrand.has(id)));
         }
 
-        if (category) visibleFeatures = visibleFeatures.filter(f => f.category === category);
-        if (query) visibleFeatures = visibleFeatures.filter(f => f.name.toLowerCase().includes(query));
+        if (category) visible = visible.filter(f => f.category === category);
+        if (query) visible = visible.filter(f => f.name.toLowerCase().includes(query));
 
         // Статистика
-        if (visibleFeatures.length === 0) {
-            statsEl.textContent = 'Ничего не найдено. Попробуйте изменить фильтры.';
+        if (visible.length === 0) {
+            statsEl.innerHTML = 'Ничего не найдено. Попробуйте изменить фильтры.';
         } else {
-            statsEl.textContent = `Найдено функций: ${visibleFeatures.length}`;
+            statsEl.innerHTML = `Найдено функций: <strong>${visible.length}</strong>`;
         }
 
-        // Отрисовка карточек
         cardsContainer.innerHTML = '';
-        if (visibleFeatures.length === 0) {
-            cardsContainer.innerHTML = '<div class="empty">По выбранным фильтрам функций нет.</div>';
+        if (visible.length === 0) {
+            cardsContainer.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div>По выбранным фильтрам функций нет.<br>Попробуйте сбросить фильтры или изменить запрос.</div>`;
             return;
         }
 
-        visibleFeatures.forEach(f => {
+        visible.forEach(f => {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <div class="card-header">
+                <div class="card-top">
                     <span class="card-title">${f.name}</span>
                     <span class="badge">${f.category}</span>
                 </div>
@@ -336,28 +490,15 @@
         });
     }
 
-    function modelNamesForFeature(feature) {
-        const names = feature.models.map(id => {
-            const m = models.find(x => x.id === id);
-            return m ? `${m.brand} ${m.model}` : id;
-        });
-        // Убираем дубли и ограничиваем длину для читаемости
-        const unique = [...new Set(names)];
-        if (unique.length > 4) {
-            return unique.slice(0, 4).join(', ') + ` и ещё ${unique.length - 4}...`;
-        }
-        return unique.join(', ');
-    }
-
     // Инициализация
-    populateBrands();
-    populateModels('');
-    populateCategories();
+    initBrands();
+    refreshModels('');
+    initCategories();
     render();
 
-    // Слушатели
+    // События
     brandSelect.addEventListener('change', () => {
-        populateModels(brandSelect.value);
+        refreshModels(brandSelect.value);
         render();
     });
     modelSelect.addEventListener('change', render);
